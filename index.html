@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Спасатель Еды">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzBmMTcyYSIgcng9IjEwMCIvPjxjaXJjbGUgY3g9IjIzMCIgY3k9IjIzMCIgcj0iMTMwIiBmaWxsPSIjMWUyOTNiIiBzdHJva2U9IiNmOTczMTYiIHN0cm9rZS13aWR0aD0iMjIiLz48cGF0aCBkPSJNMzIyIDMyMiBMNDIwIDQyMCIgc3Ryb2tlPSIjZjk3MzE2IiBzdHJva2Utd2lkdGg9IjM2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTc1IDIyMCBRIDE5MCAxNzAgMjQwIDE4MCBRIDI4NSAxOTAgMjc1IDI0MCBRIDI2NSAyODUgMjE1IDI3NSBRIDE2NSAyNjUgMTc1IDIyMCBaIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjI1IiBjeT0iMjI1IiByPSIzNCIgZmlsbD0iI2Y1OWUwYiIvPjwvc3ZnPg==">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzBmMTcyYSIgcng9IjEwMCIvPjxjaXJjbGUgY3g9IjIzMCIgY3k9IjIzMCIgcj0iMTMwIiBmaWxsPSIjMWUyOTNiIiBzdHJva2U9IiNmOTczMTYiIHN0cm9rZS13aWR0aD0iMjIiLz48cGF0aCBkPSJNMzIyIDMyMiBMNDIwIDQyMCIgc3Ryb2tlPSIjZjk3MzE2IiBzdHJva2Utd2lkdGg9IjM2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTc1IDIyMCBRIDE5MCAxNzAgMjQwIDE4MCBRIDI4NSAxOTAgMjc1IDI0MCBRIDI2NSAyODUgMjE1IDI3NSBRIDE2NSAyNjUgMTc1IDIyMCBaIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjI1IiBjeT0iMjI1IiByPSIzNCIgZmlsbD0iI2Y1OWUwYiIvPjwvc3ZnPg==">
+    <title>Спасатель Еды</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px 16px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        .control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .counter {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .counter span {
+            color: #f97316;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:active {
+            background: #1e293b;
+            color: #f8fafc;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .product-card {
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 16px;
+            padding: 14px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .product-card:active {
+            transform: scale(0.97);
+        }
+
+        .product-card.selected {
+            border-color: #f97316;
+            background-color: rgba(249, 115, 22, 0.12);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+        }
+
+        .product-emoji {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #f8fafc;
+            flex-grow: 1;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .product-card.selected .check-icon {
+            background-color: #f97316;
+            border-color: #f97316;
+            color: #ffffff;
+        }
+
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 14px 16px;
+            padding-bottom: max(14px, env(safe-area-inset-bottom));
+            border-top: 1px solid #334155;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-btn {
+            width: 100%;
+            max-width: 500px;
+            background: #f97316;
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .main-btn:active {
+            transform: scale(0.98);
+            background: #ea580c;
+        }
+
+        .results-section {
+            margin-top: 28px;
+        }
+
+        .results-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #f8fafc;
+        }
+
+        .recipe-card {
+            background-color: #1e293b;
+            border-radius: 18px;
+            border: 1px solid #334155;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .recipe-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f8fafc;
+            line-height: 1.3;
+        }
+
+        .recipe-time {
+            background-color: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .recipe-ingredients {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .ing-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .ing-tag.has {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .ing-tag.missing {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .recipe-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .recipe-steps li {
+            position: relative;
+            padding-left: 28px;
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .recipe-steps li:last-child {
+            margin-bottom: 0;
+        }
+
+        .recipe-steps li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 1px;
+            width: 20px;
+            height: 20px;
+            background: #334155;
+            color: #f8fafc;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px;
+            background: #1e293b;
+            border-radius: 18px;
+            border: 1px dashed #334155;
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🍳 Спасатель Еды</h1>
+            <p>Отметьте продукты — подберем ужин за 10 минут</p>
+        </header>
+
+        <div class="control-bar">
+            <div class="counter">Отмечено: <span id="selected-count">0</span></div>
+            <button class="reset-btn" id="reset-btn">✕ Сбросить всё</button>
+        </div>
+
+        <div class="grid" id="products-grid"></div>
+
+        <div class="results-section" id="results-section">
+            <div class="empty-state" id="empty-state">
+                Выберите имеющиеся продукты выше и нажмите оранжевую кнопку внизу
+            </div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="main-btn" id="cook-btn">
+            <span>⚡</span> Что приготовить за 10 минут?
+        </button>
+    </div>
+
+    <script>
+        // 1. Service Worker registration logic via Blob
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'food-saver-v1';
+                    self.addEventListener('install', (e) => {
+                        self.skipWaiting();
+                    });
+                    self.addEventListener('activate', (e) => {
+                        e.waitUntil(clients.claim());
+                    });
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            fetch(e.request).catch(() => caches.match(e.request))
+                        );
+                    });
+                `;
+                try {
+                    const blob = new Blob([swCode], { type: 'text/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).then(() => {
+                        if (window.caches) {
+                            caches.open('food-saver-v1').then((cache) => {
+                                cache.add(window.location.href).catch(() => {});
+                            });
+                        }
+                    }).catch(() => {});
+                } catch (e) {}
+            });
+        }
+
+        // 2. Data Structures: 16 Products
+        const products = [
+            { id: 'eggs', name: 'Яйца', emoji: '🥚' },
+            { id: 'cheese', name: 'Сыр', emoji: '🧀' },
+            { id: 'bread', name: 'Хлеб', emoji: '🍞' },
+            { id: 'milk', name: 'Молоко', emoji: '🥛' },
+            { id: 'tomatoes', name: 'Помидоры', emoji: '🍅' },
+            { id: 'potatoes', name: 'Картошка', emoji: '🥔' },
+            { id: 'rice', name: 'Рис', emoji: '🍚' },
+            { id: 'pasta', name: 'Макароны', emoji: '🍝' },
+            { id: 'chicken', name: 'Курица', emoji: '🍗' },
+            { id: 'sausage', name: 'Колбаса/Сосиски', emoji: '🌭' },
+            { id: 'onion', name: 'Лук', emoji: '🧅' },
+            { id: 'butter', name: 'Масло', emoji: '🧈' },
+            { id: 'canned', name: 'Консервы', emoji: '🥫' },
+            { id: 'herbs', name: 'Зелень', emoji: '🌿' },
+            { id: 'cucumbers', name: 'Огурцы', emoji: '🥒' },
+            { id: 'mushrooms', name: 'Грибы', emoji: '🍄' }
+        ];
+
+        // 3. Data Structures: 15 Recipes
+        const recipes = [
+            {
+                id: 1,
+                name: 'Пышный омлет с сыром',
+                time: '7 мин',
+                ingredients: ['eggs', 'milk', 'cheese', 'butter'],
+                steps: [
+                    'Взбейте яйца с молоком и щепоткой соли.',
+                    'Разогрейте масло на сковороде, вылейте смесь и посыпьте тертым сыром.',
+                    'Готовьте под крышкой 5 минут на среднем огне.'
+                ]
+            },
+            {
+                id: 2,
+                name: 'Горячие бутерброды с колбасой и сыром',
+                time: '8 мин',
+                ingredients: ['bread', 'cheese', 'sausage', 'butter'],
+                steps: [
+                    'Нарежьте хлеб, колбасу и сыр.',
+                    'Выложите начинку на хлеб, смазанный тонким слоем масла.',
+                    'Запекайте на сковороде под крышкой 4–5 минут до расплавления сыра.'
+                ]
+            },
+            {
+                id: 3,
+                name: 'Жареный рис с овощами и яйцом',
+                time: '10 мин',
+                ingredients: ['rice', 'eggs', 'tomatoes', 'onion', 'butter'],
+                steps: [
+                    'Обжарьте мелко нарезанный лук и помидоры на масле 3 минуты.',
+                    'Добавьте готовый рис, вбейте яйцо и активно перемешайте.',
+                    'Прогрейте 3–4 минуты на сильном огне.'
+                ]
+            },
+            {
+                id: 4,
+                name: 'Экспресс-паста с сыром',
+                time: '10 мин',
+                ingredients: ['pasta', 'cheese', 'butter'],
+                steps: [
+                    'Отварите макароны в кипящей подсоленной воде 7–8 минут.',
+                    'Слейте воду, добавьте сливочное масло и тертый сыр.',
+                    'Перемешивайте 1 минуту, пока сыр не образует нежный соус.'
+                ]
+            },
+            {
+                id: 5,
+                name: 'Быстрые картофельные драники',
+                time: '10 мин',
+                ingredients: ['potatoes', 'eggs', 'onion', 'butter'],
+                steps: [
+                    'Натрите картофель и лук на мелкой терке, отожмите сок.',
+                    'Смешайте с яйцом и солью.',
+                    'Обжаривайте ложкой на раскаленном масле по 3–4 минуты с каждой стороны.'
+                ]
+            },
+            {
+                id: 6,
+                name: 'Свежий салат с огурцом и сыром',
+                time: '5 мин',
+                ingredients: ['cucumbers', 'tomatoes', 'herbs', 'cheese'],
+                steps: [
+                    'Нарежьте огурцы, помидоры и сыр кубиками.',
+                    'Мелко нашинкуйте зелень.',
+                    'Посолите, сбрызните маслом и аккуратно перемешайте.'
+                ]
+            },
+            {
+                id: 7,
+                name: 'Жареные грибы с луком',
+                time: '10 мин',
+                ingredients: ['mushrooms', 'onion', 'butter', 'herbs'],
+                steps: [
+                    'Нарежьте грибы и лук соломкой.',
+                    'Обжарьте лук на масле 2 минуты, затем добавьте грибы.',
+                    'Готовьте на сильном огне 7 минут, в конце добавьте зелень и соль.'
+                ]
+            },
+            {
+                id: 8,
+                name: 'Макароны по-быстрому с колбасой',
+                time: '10 мин',
+                ingredients: ['pasta', 'sausage', 'onion', 'butter'],
+                steps: [
+                    'Поставьте вариться макароны.',
+                    'Нарежьте колбасу и лук, обжарьте на масле до румяности.',
+                    'Соедините макароны с колбасой и прогрейте 1 минуту.'
+                ]
+            },
+            {
+                id: 9,
+                name: 'Шакшука-экспресс на сковороде',
+                time: '8 мин',
+                ingredients: ['eggs', 'tomatoes', 'onion', 'herbs', 'butter'],
+                steps: [
+                    'Обжарьте лук и нашинкованные помидоры 3 минуты.',
+                    'Сделайте углубления и аккуратно вбейте яйца.',
+                    'Посолите, накройте крышкой и готовьте 4 минуты до готовности белка.'
+                ]
+            },
+            {
+                id: 10,
+                name: 'Закусочный паштет из консервов',
+                time: '5 мин',
+                ingredients: ['canned', 'eggs', 'bread', 'onion'],
+                steps: [
+                    'Разомните рыбные или мясные консервы вилкой вместе с рубым луком.',
+                    'Добавьте вареное яйцо (при наличии) и перемешайте.',
+                    'Намажьте получившуюся массу на подсушенный хлеб.'
+                ]
+            },
+            {
+                id: 11,
+                name: 'Золотистые гренки в яйце',
+                time: '7 мин',
+                ingredients: ['bread', 'eggs', 'milk', 'butter'],
+                steps: [
+                    'Взбейте яйцо с молоком и щепоткой соли.',
+                    'Обмакните ломтики хлеба в смесь с двух сторон.',
+                    'Обжарьте на сливочном масле до румяной корочки.'
+                ]
+            },
+            {
+                id: 12,
+                name: 'Сочная курица в томатном соусе',
+                time: '10 мин',
+                ingredients: ['chicken', 'tomatoes', 'butter', 'herbs'],
+                steps: [
+                    'Нарежьте куриное филе тонкими полосками.',
+                    'Быстро обжарьте на сильном огне 5 минут.',
+                    'Добавьте кубики помидоров, зелень и тушите под крышкой 4 минуты.'
+                ]
+            },
+            {
+                id: 13,
+                name: 'Зеленая фриттата с сыром',
+                time: '8 мин',
+                ingredients: ['eggs', 'herbs', 'cheese', 'butter'],
+                steps: [
+                    'Мелко нашинкуйте свежую зелень и натрите сыр.',
+                    'Взбейте яйца, смешайте с зеленью и вылейте на сковороду с маслом.',
+                    'Посыпьте сыром и готовьте под крышкой 5–6 минут.'
+                ]
+            },
+            {
+                id: 14,
+                name: 'Жареная картошка с грибами',
+                time: '10 мин',
+                ingredients: ['potatoes', 'mushrooms', 'onion', 'butter'],
+                steps: [
+                    'Нарежьте картофель и грибы тонкими ломтиками.',
+                    'Обжарьте лук и грибы 3 минуты, затем добавьте картофель.',
+                    'Жарьте на среднем огне до золотистости и посолите.'
+                ]
+            },
+            {
+                id: 15,
+                name: 'Экспресс-салат с сосисками',
+                time: '5 мин',
+                ingredients: ['sausage', 'cucumbers', 'cheese', 'herbs'],
+                steps: [
+                    'Нарежьте колбасу или сосиски соломкой вместе с огурцами.',
+                    'Добавьте тертый сыр и нашинкованную зелень.',
+                    'Заправьте капли масла и перемешайте.'
+                ]
+            }
+        ];
+
+        // 4. State & UI Elements
+        const selectedProducts = new Set();
+        const grid = document.getElementById('products-grid');
+        const countSpan = document.getElementById('selected-count');
+        const resetBtn = document.getElementById('reset-btn');
+        const cookBtn = document.getElementById('cook-btn');
+        const resultsSection = document.getElementById('results-section');
+
+        // 5. Render Products Grid
+        function renderGrid() {
+            grid.innerHTML = '';
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = `product-card ${selectedProducts.has(p.id) ? 'selected' : ''}`;
+                card.innerHTML = `
+                    <span class="product-emoji">${p.emoji}</span>
+                    <span class="product-name">${p.name}</span>
+                    <div class="check-icon">✓</div>
+                `;
+                card.addEventListener('click', () => toggleProduct(p.id));
+                grid.appendChild(card);
+            });
+            countSpan.textContent = selectedProducts.size;
+        }
+
+        function toggleProduct(id) {
+            if (selectedProducts.has(id)) {
+                selectedProducts.delete(id);
+            } else {
+                selectedProducts.add(id);
+            }
+            renderGrid();
+        }
+
+        // Reset All
+        resetBtn.addEventListener('click', () => {
+            selectedProducts.clear();
+            renderGrid();
+            resultsSection.innerHTML = `
+                <div class="empty-state">
+                    Выберите имеющиеся продукты выше и нажмите оранжевую кнопку внизу
+                </div>
+            `;
+        });
+
+        // 6. Recipe Search & Calculation Logic
+        function findRecipes() {
+            if (selectedProducts.size === 0) {
+                resultsSection.innerHTML = `
+                    <div class="empty-state" style="border-color: #f97316; color: #f8fafc;">
+                        ⚠️ Пожалуйста, отметьте хотя бы 1–2 продукта, которые есть у вас дома!
+                    </div>
+                `;
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const scoredRecipes = recipes.map(recipe => {
+                const matched = recipe.ingredients.filter(id => selectedProducts.has(id));
+                const missing = recipe.ingredients.filter(id => !selectedProducts.has(id));
+                const score = (matched.length * 10) - (missing.length * 3) + (matched.length / recipe.ingredients.length);
+
+                return {
+                    recipe,
+                    matched,
+                    missing,
+                    score,
+                    matchedCount: matched.length
+                };
+            });
+
+            // Filter out recipes with 0 matches
+            const valid = scoredRecipes.filter(item => item.matchedCount > 0);
+
+            // Sort by best score
+            valid.sort((a, b) => b.score - a.score);
+
+            const topRecipes = valid.slice(0, 3);
+
+            if (topRecipes.length === 0) {
+                resultsSection.innerHTML = `
+                    <div class="empty-state">
+                        К сожалению, с выбранными ингредиентами пока нет точных рецептов. Попробуйте добавить еще пару продуктов!
+                    </div>
+                `;
+            } else {
+                let html = `<h2 class="results-title">Подходящие рецепты (${topRecipes.length}):</h2>`;
+                topRecipes.forEach(item => {
+                    const r = item.recipe;
+                    
+                    const ingredientsTags = r.ingredients.map(ingId => {
+                        const p = products.find(prod => prod.id === ingId);
+                        const hasIt = selectedProducts.has(ingId);
+                        return `<span class="ing-tag ${hasIt ? 'has' : 'missing'}">${hasIt ? '✓' : '+'} ${p ? p.name : ingId}</span>`;
+                    }).join('');
+
+                    const stepsHtml = r.steps.map(s => `<li>${s}</li>`).join('');
+
+                    html += `
+                        <div class="recipe-card">
+                            <div class="recipe-header">
+                                <div class="recipe-name">${r.name}</div>
+                                <div class="recipe-time">⏱️ ${r.time}</div>
+                            </div>
+                            <div class="recipe-ingredients">
+                                ${ingredientsTags}
+                            </div>
+                            <ol class="recipe-steps">
+                                ${stepsHtml}
+                            </ol>
+                        </div>
+                    `;
+                });
+                resultsSection.innerHTML = html;
+            }
+
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        cookBtn.addEventListener('click', findRecipes);
+
+        // Initial Initialization
+        renderGrid();
+    </script>
+</body>
+</html>
